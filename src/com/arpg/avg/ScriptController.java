@@ -155,7 +155,7 @@ public class ScriptController extends AbstarctController{
   }
 
   private void readScript(String file){
-    String path = this.getClass().getResource("/com/zhc/arpg/avg/script/" + file).getFile();
+    String path = this.getClass().getResource("/com/arpg/avg/script/" + file).getFile();
     BufferedReader reader = null;
     try{
       reader = new BufferedReader(new FileReader(path));
