@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<magics>
+  <magic id="0" name="冰封" animate="resource/image/magic/ice.png" frames="13" />
+  <magic id="1" name="烈火" animate="resource/image/magic/fire.png" frames="19" />
+  <magic id="2" name="雷电" animate="resource/image/magic/thunder.png" frames="20" />
+  <magic id="3" name="狂风" animate="resource/image/magic/wind.png" frames="15" />
+  <magic id="4" name="剧毒" animate="resource/image/magic/poison.png" frames="12" />
+  <magic id="5" name="混乱" animate=resource/image/magic/confusion.png" frames="15" />
+</magics>
