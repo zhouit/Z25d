@@ -11,13 +11,24 @@ import com.arpg.utils.JavafxImageWriter;
 import com.arpg.utils.ResourceManager;
 
 public class Message{
-  private static Image cache= ResourceManager.loadImage("resource/image/window.png");
-  private static Image select= ResourceManager.loadImage("resource/image/creese.png");
-  private static Font msgFont=Font.font("KaiTi", FontWeight.BOLD, 25);
-  
+  private static Image cache = ResourceManager.loadImage("resource/image/window.png");
+  private static Image select = ResourceManager.loadImage("resource/image/creese.png");
+  private static Font msgFont = Font.font("KaiTi", FontWeight.BOLD, 25);
+
+  public static Image loadBorder(){
+    return ImageUtils.clip(cache, 64, 64, 128, 0);
+  }
+
+  /**
+   * 请使用 {@link Message#loadBorder()}和{@link com.arpg.utils.NinePatch}技术
+   * 
+   * @param width
+   * @param height
+   * @return
+   */
+  @Deprecated
   public static Image loadBorder(int width, int height){
     Image frame = ImageUtils.clip(cache, 64, 64, 128, 0);
-    
     Image left = ImageUtils.clip(frame, 10, height, 0, 27, 10, 64 - 27);
     Image leftUp = ImageUtils.clip(frame, 27, 27, 0, 0);
     Image right = ImageUtils.clip(frame, 10, height, 64 - 10, 27, 64, 64 - 27);
@@ -37,24 +48,24 @@ public class Message{
     iwriter.fillImage(rightUp, width - 27, 0);
     iwriter.fillImage(leftDown, 0, height - 27);
     iwriter.fillImage(rightDown, width - 27, height - 27);
-    
+
     return iwriter.getImage();
   }
-  
+
   public static Image loadBg(int width, int height){
-    return ImageUtils.clip(cache, width, height, 128, 64, 128+32, 64+32);
+    return ImageUtils.clip(cache, width, height, 128, 64, 128 + 32, 64 + 32);
   }
-  
+
   public static Font getMsgFont(){
     return msgFont;
   }
-  
+
   public static Image getSelect(){
     return select;
   }
-  
+
   public static Dimension2D getTextBounds(String msg){
     return FontUtils.getFontBounds(msg, msgFont);
   }
-  
+
 }

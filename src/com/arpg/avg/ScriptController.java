@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import com.arpg.AbstarctController;
 import com.arpg.utils.IOUtils;
 import com.arpg.utils.LineReader;
+import com.arpg.utils.NinePatch;
 import com.arpg.utils.RpgConstants;
 import com.arpg.utils.StringUtils;
 
@@ -27,6 +28,7 @@ import com.arpg.utils.StringUtils;
  *
  */
 public class ScriptController extends AbstarctController{
+  private NinePatch ninePatch;
   private LineReader scripts;
   // 游戏脚本中的变量表
   private Map<String, String> vars;
@@ -45,6 +47,8 @@ public class ScriptController extends AbstarctController{
       this.cgs = new LinkedHashMap<String, Cg>();
       readScript(scriptFile);
       this.fontHeight = Message.getTextBounds("中文").getHeight();
+
+      ninePatch = new NinePatch(Message.loadBorder(), 27);
     }
   }
 
@@ -62,7 +66,8 @@ public class ScriptController extends AbstarctController{
     if(event.getEventType() == MouseEvent.MOUSE_CLICKED){
       invokeScript();
     }else if(event.getEventType() == MouseEvent.MOUSE_MOVED){
-      if(selects == null) return;
+      if(selects == null)
+        return;
 
       MouseEvent me = (MouseEvent) event;
       select = (int) ((me.getY() - 350) / fontHeight);
@@ -80,14 +85,17 @@ public class ScriptController extends AbstarctController{
     context.setGlobalAlpha(0.4d);
     context.drawImage(Message.loadBg(RpgConstants.CANVAS_WIDTH - 60, 130), 30, 315);
     context.setGlobalAlpha(1.0d);
-    context.drawImage(Message.loadBorder(RpgConstants.CANVAS_WIDTH - 50, 140), 25, 310);
+    // context.drawImage(Message.loadBorder(RpgConstants.CANVAS_WIDTH - 50,
+    // 140), 25, 310);
+    ninePatch.draw(context, 25, 310, RpgConstants.CANVAS_WIDTH - 50, 140);
 
     drawMsg(context);
     drawSelects(context);
   }
 
   private void drawMsg(GraphicsContext context){
-    if(message == null) return;
+    if(message == null)
+      return;
 
     context.setFill(Color.WHITESMOKE);
     context.setFont(Message.getMsgFont());
@@ -100,7 +108,8 @@ public class ScriptController extends AbstarctController{
   }
 
   private void drawSelects(GraphicsContext context){
-    if(selects == null) return;
+    if(selects == null)
+      return;
 
     context.setFill(Color.WHITESMOKE);
     context.setFont(Message.getMsgFont());
@@ -123,22 +132,29 @@ public class ScriptController extends AbstarctController{
 
       String script = scripts.next();
       StringTokenizer token = new StringTokenizer(script);
-      if(token.hasMoreTokens()) instruct = token.nextToken();
-      if(token.hasMoreTokens()) obj = token.nextToken();
-      if(token.hasMoreTokens()) ops = token.nextToken();
-      if(token.hasMoreTokens()) data = token.nextToken();
+      if(token.hasMoreTokens())
+        instruct = token.nextToken();
+      if(token.hasMoreTokens())
+        obj = token.nextToken();
+      if(token.hasMoreTokens())
+        ops = token.nextToken();
+      if(token.hasMoreTokens())
+        data = token.nextToken();
 
       if("set".equals(instruct)){
         vars.put("#{" + obj + "}", data);
       }else if("cg".equals(instruct)){
         if("del".equals(obj)){
-          if(ops == null) cgs.clear();
+          if(ops == null)
+            cgs.clear();
           else
             cgs.remove(ops);
         }else{
           int x = 0, y = 0;
-          if(ops != null) x = Integer.parseInt(ops);
-          if(data != null) y = Integer.parseInt(data);
+          if(ops != null)
+            x = Integer.parseInt(ops);
+          if(data != null)
+            y = Integer.parseInt(data);
 
           cgs.put(obj, new Cg(vars.get(obj), x, y));
         }
@@ -163,9 +179,11 @@ public class ScriptController extends AbstarctController{
       String statement = null;
       while((statement = reader.readLine()) != null){
         statement = statement.trim();
-        if(statement.length() == 0) continue;
+        if(statement.length() == 0)
+          continue;
         // 单行注释
-        if(statement.startsWith("//") || statement.startsWith("#")) continue;
+        if(statement.startsWith("//") || statement.startsWith("#"))
+          continue;
 
         scripts.addLine(statement);
       }
